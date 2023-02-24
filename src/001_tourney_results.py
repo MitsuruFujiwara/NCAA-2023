@@ -54,6 +54,9 @@ def main():
     # merge 
     df = pd.concat([df,SampleSubmission.drop('Pred',axis=1)])
 
+    # add men/women flag
+    df['is_women'] = (df['WTeamID']>3000).astype(int)
+
     # save pkl
     save2pkl('../feats/tourney_result.pkl', df)
 
