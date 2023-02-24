@@ -4,16 +4,15 @@ import pandas as pd
 import sys
 
 from utils import save2pkl, line_notify
-from utils import MBASE_DIR
 
 #==============================================================================
-# preprocess massaey ordinals mens
+# preprocess massaey ordinals
 #==============================================================================
 
 def main():
 
     # load csv
-    MasseyOrdinals = pd.read_csv(f'{MBASE_DIR}/MMasseyOrdinals_thruDay128.csv')
+    MasseyOrdinals = pd.read_csv('../input/MMasseyOrdinals.csv')
 
     # drop syetem name
     MasseyOrdinals.drop(['SystemName'],axis=1,inplace=True)
@@ -43,7 +42,7 @@ def main():
     df = df.merge(df_sum,on=['Season','TeamID'],how='outer')
 
     # save pkl
-    save2pkl('../feats/massey_ordinals_mens.pkl', df)
+    save2pkl('../feats/massey_ordinals.pkl', df)
 
     # LINE notify
     line_notify('{} done.'.format(sys.argv[0]))
