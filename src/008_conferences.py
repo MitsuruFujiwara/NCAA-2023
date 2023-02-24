@@ -4,22 +4,25 @@ import pandas as pd
 import sys
 
 from utils import save2pkl, line_notify
-from utils import MBASE_DIR
 
 #==============================================================================
-# preprocess conferences mens
+# preprocess conferences
 #==============================================================================
 
 def main():
 
     # load csv
-    Conferences = pd.read_csv(f'{MBASE_DIR}/MTeamConferences.csv')
+    MConferences = pd.read_csv('../input/MTeamConferences.csv')
+    WConferences = pd.read_csv('../input/WTeamConferences.csv')
+
+    # merge
+    Conferences = pd.concat([MConferences,WConferences])
 
     # label encoding
     Conferences['ConfAbbrev'] = Conferences['ConfAbbrev'].map(Conferences['ConfAbbrev'].value_counts())
 
     # save pkl
-    save2pkl('../feats/conferences_mens.pkl', Conferences)
+    save2pkl('../feats/conferences.pkl', Conferences)
 
     # LINE notify
     line_notify('{} done.'.format(sys.argv[0]))
