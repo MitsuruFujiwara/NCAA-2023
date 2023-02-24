@@ -4,16 +4,22 @@ import pandas as pd
 import sys
 
 from utils import save2pkl, line_notify
-from utils import MBASE_DIR, DICT_LOC
+from utils import DICT_LOC
 
 #==============================================================================
-# preprocess season results mens
+# preprocess season results
 #==============================================================================
 
 def main():
 
     # load csv
-    RegularSeasonDetailedResults = pd.read_csv(f'{MBASE_DIR}/MRegularSeasonDetailedResults.csv')
+    MRegularSeasonDetailedResults = pd.read_csv('../input/MRegularSeasonDetailedResults.csv')
+    WRegularSeasonDetailedResults = pd.read_csv('../input/WRegularSeasonDetailedResults.csv')
+
+    # merge
+    RegularSeasonDetailedResults = pd.concat([MRegularSeasonDetailedResults,WRegularSeasonDetailedResults])
+
+    del MRegularSeasonDetailedResults, WRegularSeasonDetailedResults
 
     # add score gap
     RegularSeasonDetailedResults['WScoreGap'] = RegularSeasonDetailedResults['WScore']-RegularSeasonDetailedResults['LScore']
@@ -43,7 +49,7 @@ def main():
                     'LScoreGap', 'WScoreGap', 'WLoc']
 
     # merge
-    tmp_df = df_w.append(df_l)
+    tmp_df = pd.concat([df_w,df_l])
 
     # drop unnecessary columns
     tmp_df = tmp_df[['Season', 'DayNum','WTeamID', 'WScore', 'WScoreGap', 'WLoc', 'NumOT',
@@ -115,7 +121,7 @@ def main():
     df['PPP'] = df['Score_mean']/df['POSS']
 
     # save pkl
-    save2pkl('../feats/season_result_mens.pkl', df)
+    save2pkl('../feats/season_result.pkl', df)
 
     # LINE notify
     line_notify('{} done.'.format(sys.argv[0]))
