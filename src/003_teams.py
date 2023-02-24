@@ -4,16 +4,19 @@ import pandas as pd
 import sys
 
 from utils import save2pkl, line_notify
-from utils import MBASE_DIR
 
 #==============================================================================
-# preprocess teams mens
+# preprocess teams
 #==============================================================================
 
 def main():
 
     # load csv
-    Teams = pd.read_csv(f'{MBASE_DIR}/MTeams.csv')
+    MTeams = pd.read_csv('../input/MTeams.csv')
+    WTeams = pd.read_csv('../input/WTeams.csv')
+
+    # merge
+    Teams = pd.concat([MTeams,WTeams])
 
     # add features
     Teams['diff_D1Season'] = Teams['LastD1Season'] - Teams['FirstD1Season']
@@ -25,7 +28,7 @@ def main():
     Teams.columns = ['TeamID', 'Teams_FirstD1Season', 'Teams_LastD1Season', 'Teams_diff_D1Season']
 
     # save pkl
-    save2pkl('../feats/teams_mens.pkl', Teams)
+    save2pkl('../feats/teams.pkl', Teams)
 
     # LINE notify
     line_notify('{} done.'.format(sys.argv[0]))
