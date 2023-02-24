@@ -4,28 +4,34 @@ import pandas as pd
 import sys
 
 from utils import save2pkl, line_notify
-from utils import MBASE_DIR
 
 #==============================================================================
-# preprocess tourney results mens
+# preprocess tourney results
 #==============================================================================
 
 def main():
 
     # load csv
-    TourneyCompactResults = pd.read_csv(f'{MBASE_DIR}/MNCAATourneyCompactResults.csv')
-    SampleSubmission = pd.read_csv(f'{MBASE_DIR}/MSampleSubmissionStage2.csv')
+    MTourneyCompactResults = pd.read_csv('../input/MNCAATourneyCompactResults.csv')
+    WTourneyCompactResults = pd.read_csv('../input/WNCAATourneyCompactResults.csv')
+
+    SampleSubmission = pd.read_csv('../input/SampleSubmission2023.csv')
 
     # split win & lose
-    df_w = TourneyCompactResults.copy()
-    df_l = TourneyCompactResults.copy()
+    df_m_w = MTourneyCompactResults.copy()
+    df_m_l = MTourneyCompactResults.copy()
+
+    df_w_w = WTourneyCompactResults.copy()
+    df_w_l = WTourneyCompactResults.copy()
 
     # change column names
-    df_l.columns = ['Season', 'DayNum', 'LTeamID', 'LScore', 'WTeamID', 'WScore', 'WLoc', 'NumOT']
+    df_m_l.columns = ['Season', 'DayNum', 'LTeamID', 'LScore', 'WTeamID', 'WScore', 'WLoc', 'NumOT']
+    df_w_l.columns = ['Season', 'DayNum', 'LTeamID', 'LScore', 'WTeamID', 'WScore', 'WLoc', 'NumOT']
 
     # merge
-    df = df_w.append(df_l)
-    del df_w, df_l
+    df = pd.concat([df_m_w, df_m_l, df_w_w, df_w_l])
+
+    del df_m_w, df_m_l, df_w_w, df_w_l
 
     # add target
     df['target'] = ((df['WScore']-df['LScore'])>0).astype(int)
@@ -46,10 +52,10 @@ def main():
     df.drop(['DayNum', 'WLoc', 'NumOT','WScore','LScore'],axis=1,inplace=True)
 
     # merge 
-    df = df.append(SampleSubmission.drop('Pred',axis=1))
+    df = pd.concat([df,SampleSubmission.drop('Pred',axis=1)])
 
     # save pkl
-    save2pkl('../feats/tourney_result_mens.pkl', df)
+    save2pkl('../feats/tourney_result.pkl', df)
 
     # LINE notify
     line_notify('{} done.'.format(sys.argv[0]))
