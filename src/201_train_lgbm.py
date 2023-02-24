@@ -79,8 +79,12 @@ def main():
 
     # k-fold
     for n_fold, (train_idx, valid_idx) in enumerate(folds.split(train_df[feats], groups=train_df['Season'])):
+        
+        # split train & test
         train_x, train_y = train_df[feats].iloc[train_idx], train_df['target'].iloc[train_idx]
         valid_x, valid_y = train_df[feats].iloc[valid_idx], train_df['target'].iloc[valid_idx]
+
+        print(valid_x['Season'].unique())
 
         # set data structure
         lgb_train = lgb.Dataset(train_x,

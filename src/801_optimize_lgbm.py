@@ -22,7 +22,7 @@ from utils import FEATS_EXCLUDED, line_notify, to_json
 warnings.filterwarnings('ignore')
 
 # load datasets
-CONFIGS = json.load(open('../configs/201_lgbm_mens.json'))
+CONFIGS = json.load(open('../configs/201_lgbm.json'))
 
 # load feathers
 FILES = sorted(glob('../feats/f101_*.feather'))
@@ -100,10 +100,10 @@ if __name__ == '__main__':
 
     # save result
     hist_df = study.trials_dataframe()
-    hist_df.to_csv("../output/optuna_result_lgbm_mens.csv")
+    hist_df.to_csv("../output/optuna_result_lgbm.csv")
 
     # save json
     CONFIGS['params'] = trial.params
-    to_json(CONFIGS, '../configs/201_lgbm_mens.json')
+    to_json(CONFIGS, '../configs/201_lgbm.json')
 
     line_notify('{} finished. Value: {}'.format(sys.argv[0],trial.value))
