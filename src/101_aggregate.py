@@ -55,7 +55,7 @@ def main():
     df = df.merge(Teams_l,on='LTeamID',how='left')
 
     # merge seasons
-    df = df.merge(Seasons,on='Season',how='left')
+    df = df.merge(Seasons,on=['Season','is_women'],how='left')
 
     # merge tourney seeds
     TourneySeeds_w = TourneySeeds.copy() 

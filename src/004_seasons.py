@@ -15,6 +15,10 @@ def main():
     MSeasons = pd.read_csv('../input/MSeasons.csv')
     WSeasons = pd.read_csv('../input/WSeasons.csv')
 
+    # add m/w flag
+    MSeasons['is_women'] = 0
+    WSeasons['is_women'] = 1
+
     # merge
     Seasons = pd.concat([MSeasons,WSeasons])
 

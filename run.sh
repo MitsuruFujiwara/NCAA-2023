@@ -16,6 +16,3 @@ python 008_conferences.py
 python 101_aggregate.py
 
 python 201_train_lgbm.py
-python 202_train_lgbm_womens.py
-python 203_train_lgbm_mens_simple.py
-python 204_train_lgbm_womens_simple.py
