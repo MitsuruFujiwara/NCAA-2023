@@ -16,24 +16,22 @@ from utils import line_notify, save_imp
 from utils import NUM_FOLDS, FEATS_EXCLUDED
 
 #==============================================================================
-# Train LightGBM (mens)
+# Train LightGBM
 #==============================================================================
 
 warnings.filterwarnings('ignore')
 
-configs = json.load(open('../configs/201_lgbm_mens.json'))
+configs = json.load(open('../configs/201_lgbm.json'))
 
 feats_path = '../feats/f101_*.feather'
 
-sub_path = '../output/submission_lgbm_mens.csv'
-oof_path = '../output/oof_lgbm_mens.csv'
+sub_path = '../output/submission_lgbm.csv'
+oof_path = '../output/oof_lgbm.csv'
 
-model_path = '../models/lgbm_mens_'
+model_path = '../models/lgbm_'
 
-imp_path_png = '../imp/lgbm_importances_mens.png'
-imp_path_csv = '../imp/feature_importance_lgbm_mens.csv'
-
-scatter_path = '../imp/scatter_mens.png'
+imp_path_png = '../imp/lgbm_importances.png'
+imp_path_csv = '../imp/feature_importance_lgbm.csv'
 
 params = configs['params']
 

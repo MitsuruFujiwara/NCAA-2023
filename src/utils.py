@@ -21,12 +21,7 @@ NUM_FOLDS = 6
 
 FEATS_EXCLUDED = ['WTeamID','LTeamID','target','ID','is_test','index']
 
-COMPETITION_NAME_M = 'mens-march-mania-2022'
-COMPETITION_NAME_W = 'womens-march-mania-2022'
-
-# base directory
-MBASE_DIR = '../input/mens/MDataFiles_Stage2'
-WBASE_DIR = '../input/womens/WDataFiles_Stage2'
+COMPETITION_NAME = 'march-machine-learning-mania-2023'
 
 # dict for location
 DICT_LOC = {'H':1, 'A':-1, 'N':0}
@@ -77,12 +72,7 @@ def line_notify(message):
     print(message)
 
 # API submission https://github.com/KazukiOnodera/Home-Credit-Default-Risk/blob/master/py/utils.py
-def submit(file_path, is_men=True, comment='from API'):
-    if is_men:
-        COMPETITION_NAME = COMPETITION_NAME_M
-    else:
-        COMPETITION_NAME = COMPETITION_NAME_W
-
+def submit(file_path, comment='from API'):
     os.system('kaggle competitions submit -c {} -f {} -m "{}"'.format(COMPETITION_NAME,file_path,comment))
     sleep(360) # tekito~~~~
     tmp = os.popen('kaggle competitions submissions -c {} -v | head -n 2'.format(COMPETITION_NAME)).read()

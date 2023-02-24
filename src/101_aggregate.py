@@ -12,17 +12,14 @@ from utils import loadpkl, to_feature, to_json, line_notify
 def main():
 
     # load pkls
-    df = loadpkl('../feats/tourney_result_mens.pkl')
-    df_season = loadpkl('../feats/season_result_mens.pkl')
-    Teams = loadpkl('../feats/teams_mens.pkl')
-    Seasons = loadpkl('../feats/seasons_mens.pkl')
-    TourneySeeds = loadpkl('../feats/seeds_mens.pkl')
-    MasseyOrdinals = loadpkl('../feats/massey_ordinals_mens.pkl')
-    TeamCoaches = loadpkl('../feats/coaches_mens.pkl')
-    Conferences = loadpkl('../feats/conferences_mens.pkl')
-
-    # drop results before 2003
-    df = df[df['Season']>=2003]
+    df = loadpkl('../feats/tourney_result.pkl')
+    df_season = loadpkl('../feats/season_result.pkl')
+    Teams = loadpkl('../feats/teams.pkl')
+    Seasons = loadpkl('../feats/seasons.pkl')
+    TourneySeeds = loadpkl('../feats/seeds.pkl')
+    MasseyOrdinals = loadpkl('../feats/massey_ordinals.pkl')
+    TeamCoaches = loadpkl('../feats/coaches.pkl')
+    Conferences = loadpkl('../feats/conferences.pkl')
 
     # merge season result
     df_season_w = df_season.copy()
@@ -134,7 +131,7 @@ def main():
 
     # save feature name list
     features_json = {'features':df.columns.tolist()}
-    to_json(features_json,'../configs/101_all_features_mens.json')
+    to_json(features_json,'../configs/101_all_features.json')
 
     # LINE notify
     line_notify('{} done.'.format(sys.argv[0]))
