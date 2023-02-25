@@ -501,10 +501,7 @@
         "diff_Teams_diff_D1Season"
     ],
     "params": {
-        "max_depth": 4,
-        "subsample": 0.7502457054310954,
-        "colsample_bytree": 0.27641009021586804,
-        "gamma": 3.6040288120671235e-08,
-        "reg_lambda": 2.218935508953109
+        "max_depth": 7,
+        "l2_leaf_reg": 70
     }
 }

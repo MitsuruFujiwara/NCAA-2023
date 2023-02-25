@@ -17,7 +17,7 @@ from time import sleep
 # utils
 #==============================================================================
 
-NUM_FOLDS = 6
+NUM_FOLDS = 5
 
 FEATS_EXCLUDED = ['WTeamID','LTeamID','target','ID','is_test','index']
 
