@@ -501,7 +501,9 @@
         "diff_Teams_diff_D1Season"
     ],
     "params": {
-        "max_depth": 7,
-        "l2_leaf_reg": 70
+        "depth": 6,
+        "random_strength": 47,
+        "subsample": 0.9709530852050503,
+        "reg_lambda": 4.032664123297348
     }
 }
