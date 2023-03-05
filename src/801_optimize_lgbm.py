@@ -12,7 +12,8 @@ from glob import glob
 from sklearn.model_selection import GroupKFold
 from tqdm import tqdm
 
-from utils import FEATS_EXCLUDED, line_notify, to_json
+from utils import line_notify, to_json
+from utils import FEATS_EXCLUDED, NUM_FOLDS
 
 #==============================================================================
 # hyper parameter optimization by optuna
@@ -65,13 +66,13 @@ def objective(trial):
               }
 
     # folds
-    folds = GroupKFold(n_splits=6)
+    folds = GroupKFold(n_splits=NUM_FOLDS)
 
     # cv
     eval_dict = lightgbm.cv(params=params,
                             train_set=lgbm_train,
                             metrics=['binary_logloss'],
-                            nfold=5,
+                            nfold=NUM_FOLDS,
                             folds=folds.split(TRAIN_DF[FEATS],groups=TRAIN_DF['Season']),
                             num_boost_round=10000,
                             early_stopping_rounds=200,
