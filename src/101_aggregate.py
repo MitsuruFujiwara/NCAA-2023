@@ -43,7 +43,7 @@ def main():
         df[f'diff_{c}_min'] = df[f'W{c}_min']-df[f'L{c}_min']
         df[f'diff_{c}_sum'] = df[f'W{c}_sum']-df[f'L{c}_sum']
 
-    # add gap features ration
+    # add gap features ratio
     cols_gap_season_ratio = ['diff_win_lose','WinRatio','FGRatio','FG3Ratio','FTRatio','EV','TR','TS%',
                              'eFG','OR%','TO%','FTR','POSS','PPP','PTS']
     
@@ -75,7 +75,7 @@ def main():
         df[f'diff_Shift_{c}_min'] = df[f'W_Shift_{c}_min']-df[f'L_Shift_{c}_min']
         df[f'diff_Shift_{c}_sum'] = df[f'W_Shift_{c}_sum']-df[f'L_Shift_{c}_sum']
 
-    # add gap features ration
+    # add gap features ratio
     cols_gap_season_ratio = ['diff_win_lose','WinRatio','FGRatio','FG3Ratio','FTRatio','EV','TR','TS%',
                              'eFG','OR%','TO%','FTR','POSS','PPP','PTS']
     
@@ -95,6 +95,12 @@ def main():
     # merge seasons
     df = df.merge(Seasons,on=['Season','is_women'],how='left')
 
+    # add gap feature
+    cols_gap_teams = ['Teams_FirstD1Season', 'Teams_LastD1Season','Teams_diff_D1Season']
+
+    for c in cols_gap_teams:
+        df[f'diff_{c}'] = df[f'W{c}']-df[f'L{c}']
+
     # merge tourney seeds
     TourneySeeds_w = TourneySeeds.copy() 
     TourneySeeds_l = TourneySeeds.copy()
@@ -104,6 +110,12 @@ def main():
 
     df = df.merge(TourneySeeds_w,on=['Season', 'WTeamID'],how='left')
     df = df.merge(TourneySeeds_l,on=['Season', 'LTeamID'],how='left')
+
+    # add gap features
+    cols_gap_seeds = ['region', 'seed_in_region', 'seed_in_region2']
+
+    for c in cols_gap_seeds:
+        df[f'diff_{c}'] = df[f'W{c}']-df[f'L{c}']
 
     # merge massey ordinals
     MasseyOrdinals_w = MasseyOrdinals.copy()
@@ -115,6 +127,11 @@ def main():
     df = df.merge(MasseyOrdinals_w,on=['Season','WTeamID'],how='left')
     df = df.merge(MasseyOrdinals_l,on=['Season','LTeamID'],how='left')
 
+    # add gap features
+    cols_ordinal_rank = [c for c in MasseyOrdinals.columns if c not in ['Season','TeamID']]
+    for c in cols_ordinal_rank:
+        df[f'diff_{c}'] = df[f'W{c}']-df[f'L{c}']
+
     # merge team coaches
     TeamCoaches_w = TeamCoaches.copy()
     TeamCoaches_l = TeamCoaches.copy()
@@ -124,6 +141,9 @@ def main():
 
     df = df.merge(TeamCoaches_w,on=['Season','WTeamID'],how='left')
     df = df.merge(TeamCoaches_l,on=['Season','LTeamID'],how='left')
+
+    # add diff features
+    df['diff_days_coaches'] = df['Wdays_coaches']-df['Ldays_coaches']
 
     # merge conferences
     Conferences_w = Conferences.copy()
@@ -137,38 +157,6 @@ def main():
 
     # add diff features
     df['diff_ConfAbbrev'] = df['WConfAbbrev']-df['LConfAbbrev']
-    df['diff_days_coaches'] = df['Wdays_coaches']-df['Ldays_coaches']
-    df['diff_Score_mean'] = df['WScore_mean']-df['LScore_mean']
-    df['diff_Score_sum'] = df['WScore_sum']-df['LScore_sum']
-    df['diff_Score_max'] = df['WScore_max']-df['LScore_max']
-    df['diff_Score_min'] = df['WScore_min']-df['LScore_min']
-    df['diff_ScoreGap_sum'] = df['WScoreGap_sum']-df['LScoreGap_sum']
-    df['diff_ScoreGap_mean'] = df['WScoreGap_mean']-df['LScoreGap_mean']
-    df['diff_ScoreGap_max'] = df['WScoreGap_max']-df['LScoreGap_max']
-    df['diff_ScoreGap_min'] = df['WScoreGap_min']-df['LScoreGap_min']
-    df['diff_Stl_sum'] = df['WStl_sum']-df['LStl_sum']
-    df['diff_DR_mean'] = df['WDR_mean']-df['LDR_mean']
-    df['diff_TO_mean'] = df['WTO_mean']-df['LTO_mean']
-    df['diff_OR_std'] = df['WOR_std']-df['LOR_std']
-    df['diff_FGM3_std'] = df['WFGM3_std']-df['LFGM3_std']
-    df['diff_PF_mean'] = df['WPF_mean']-df['LPF_mean']
-    df['diff_DayNum_mean'] = df['WDayNum_mean']-df['LDayNum_mean']
-    df['diff_OrdinalRank_mean'] = df['WOrdinalRank_mean']-df['LOrdinalRank_mean']
-    df['diff_OrdinalRank_max'] = df['WOrdinalRank_max']-df['LOrdinalRank_max']
-    df['diff_OrdinalRank_min'] = df['WOrdinalRank_min']-df['LOrdinalRank_min']
-    df['diff_region'] = df['Wregion']-df['Lregion']
-    df['diff_seed_in_region'] = df['Wseed_in_region']-df['Lseed_in_region']
-    df['diff_seed_in_region2'] = df['Wseed_in_region2']-df['Lseed_in_region2']
-    df['diff_Teams_FirstD1Season'] = df['WTeams_FirstD1Season']-df['LTeams_FirstD1Season']
-    df['diff_Teams_LastD1Season'] = df['WTeams_LastD1Season']-df['LTeams_LastD1Season']
-    df['diff_Teams_diff_D1Season'] = df['WTeams_diff_D1Season']-df['LTeams_diff_D1Season']
-
-    # add gap features
-    cols_gap = ['diff_win_lose','WinRatio','FGRatio','FG3Ratio','FTRatio','EV','TR','TS%',
-                'eFG','OR%','TO%','FTR','POSS','PPP','PTS']
-    
-    for c in cols_gap:
-        df[f'diff_{c}'] = df[f'W{c}']-df[f'L{c}']
 
     # save as feather
     to_feature(df, '../feats/f101')
