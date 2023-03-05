@@ -18,3 +18,6 @@ python 101_aggregate.py
 python 201_train_lgbm.py
 python 202_train_xgb.py
 python 203_train_cb.py
+
+python 301_ensemble.py
+python 302_ensemble_optimize.py
