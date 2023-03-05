@@ -120,6 +120,9 @@ def main():
     df['POSS'] = df['FGA_mean'] +0.44*df['FTA_mean'] +df['TO_mean']
     df['PPP'] = df['Score_mean']/df['POSS']
 
+    # PTS
+    df['PTS'] = df['POSS'] * df['PPP']
+
     # save pkl
     save2pkl('../feats/season_result.pkl', df)
 

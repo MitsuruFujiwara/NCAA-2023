@@ -31,6 +31,25 @@ def main():
     df = df.merge(df_season_w,on=['Season','WTeamID'],how='left')
     df = df.merge(df_season_l,on=['Season','LTeamID'],how='left')
 
+    # add gap features
+    cols_gap_season = ['DayNum','Score','ScoreGap','Loc','NumOT','FGM',
+                       'FGA','FGM3','FGA3','FTM','FTA','OR','DR',
+                       'Ast', 'TO', 'Stl', 'Blk', 'PF']
+
+    for c in cols_gap_season:
+        df[f'diff_{c}_mean'] = df[f'W{c}_mean']-df[f'L{c}_mean']
+        df[f'diff_{c}_std'] = df[f'W{c}_std']-df[f'L{c}_std']
+        df[f'diff_{c}_max'] = df[f'W{c}_max']-df[f'L{c}_max']
+        df[f'diff_{c}_min'] = df[f'W{c}_min']-df[f'L{c}_min']
+        df[f'diff_{c}_sum'] = df[f'W{c}_sum']-df[f'L{c}_sum']
+
+    # add gap features ration
+    cols_gap_season_ratio = ['diff_win_lose','WinRatio','FGRatio','FG3Ratio','FTRatio','EV','TR','TS%',
+                             'eFG','OR%','TO%','FTR','POSS','PPP','PTS']
+    
+    for c in cols_gap_season_ratio:
+        df[f'diff_{c}'] = df[f'W{c}']-df[f'L{c}']
+
     # merge shifted season result
     df_season_shift_w = df_season.copy()
     df_season_shift_l = df_season.copy()
@@ -43,6 +62,25 @@ def main():
 
     df = df.merge(df_season_shift_w,on=['Season','WTeamID'],how='left')
     df = df.merge(df_season_shift_l,on=['Season','LTeamID'],how='left')
+
+    # add gap features
+    cols_gap_season = ['DayNum','Score','ScoreGap','Loc','NumOT','FGM',
+                       'FGA','FGM3','FGA3','FTM','FTA','OR','DR',
+                       'Ast', 'TO', 'Stl', 'Blk', 'PF']
+
+    for c in cols_gap_season:
+        df[f'diff_Shift_{c}_mean'] = df[f'W_Shift_{c}_mean']-df[f'L_Shift_{c}_mean']
+        df[f'diff_Shift_{c}_std'] = df[f'W_Shift_{c}_std']-df[f'L_Shift_{c}_std']
+        df[f'diff_Shift_{c}_max'] = df[f'W_Shift_{c}_max']-df[f'L_Shift_{c}_max']
+        df[f'diff_Shift_{c}_min'] = df[f'W_Shift_{c}_min']-df[f'L_Shift_{c}_min']
+        df[f'diff_Shift_{c}_sum'] = df[f'W_Shift_{c}_sum']-df[f'L_Shift_{c}_sum']
+
+    # add gap features ration
+    cols_gap_season_ratio = ['diff_win_lose','WinRatio','FGRatio','FG3Ratio','FTRatio','EV','TR','TS%',
+                             'eFG','OR%','TO%','FTR','POSS','PPP','PTS']
+    
+    for c in cols_gap_season_ratio:
+        df[f'diff_Shift_{c}'] = df[f'W_Shift_{c}']-df[f'L_Shift_{c}']
 
     # merge teams
     Teams_w = Teams.copy()
@@ -108,7 +146,6 @@ def main():
     df['diff_ScoreGap_mean'] = df['WScoreGap_mean']-df['LScoreGap_mean']
     df['diff_ScoreGap_max'] = df['WScoreGap_max']-df['LScoreGap_max']
     df['diff_ScoreGap_min'] = df['WScoreGap_min']-df['LScoreGap_min']
-    df['diff_diff_win_lose'] = df['Wdiff_win_lose']-df['Ldiff_win_lose']
     df['diff_Stl_sum'] = df['WStl_sum']-df['LStl_sum']
     df['diff_DR_mean'] = df['WDR_mean']-df['LDR_mean']
     df['diff_TO_mean'] = df['WTO_mean']-df['LTO_mean']
@@ -125,6 +162,13 @@ def main():
     df['diff_Teams_FirstD1Season'] = df['WTeams_FirstD1Season']-df['LTeams_FirstD1Season']
     df['diff_Teams_LastD1Season'] = df['WTeams_LastD1Season']-df['LTeams_LastD1Season']
     df['diff_Teams_diff_D1Season'] = df['WTeams_diff_D1Season']-df['LTeams_diff_D1Season']
+
+    # add gap features
+    cols_gap = ['diff_win_lose','WinRatio','FGRatio','FG3Ratio','FTRatio','EV','TR','TS%',
+                'eFG','OR%','TO%','FTR','POSS','PPP','PTS']
+    
+    for c in cols_gap:
+        df[f'diff_{c}'] = df[f'W{c}']-df[f'L{c}']
 
     # save as feather
     to_feature(df, '../feats/f101')

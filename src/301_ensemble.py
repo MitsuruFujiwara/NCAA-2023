@@ -41,6 +41,9 @@ def main():
     # to probablity
     sub.loc[:,'Pred'] = (sub['Pred']-sub['Pred'].min())/(sub['Pred'].max()-sub['Pred'].min())
 
+    # clip prediction
+    sub['Pred'].clip(0.05,0.95,inplace=True)
+
     # save csv
     sub[['ID','Pred']].to_csv(sub_path_avg, index=False)
 
