@@ -4205,8 +4205,8 @@
     ],
     "params": {
         "depth": 6,
-        "random_strength": 47,
-        "subsample": 0.9709530852050503,
-        "reg_lambda": 4.032664123297348
+        "random_strength": 59,
+        "subsample": 0.9862661255345222,
+        "reg_lambda": 2.2048995971797343
     }
 }

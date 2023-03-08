@@ -4205,12 +4205,12 @@
     ],
     "params": {
         "max_depth": 3,
-        "num_leaves": 65,
-        "subsample": 0.7826746194109073,
-        "subsample_freq": 2,
-        "colsample_bytree": 0.3155298813691929,
-        "min_child_samples": 42,
-        "min_child_weight": 6.467446552337001,
-        "reg_lambda": 0.027064365082655265
+        "num_leaves": 88,
+        "subsample": 0.9363025917776171,
+        "subsample_freq": 11,
+        "colsample_bytree": 0.3049900373942823,
+        "min_child_samples": 18,
+        "min_child_weight": 1.149809393426634,
+        "reg_lambda": 4.585718871767746
     }
 }

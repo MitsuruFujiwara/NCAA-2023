@@ -4204,10 +4204,10 @@
         "diff_ConfAbbrev"
     ],
     "params": {
-        "max_depth": 4,
-        "subsample": 0.7502457054310954,
-        "colsample_bytree": 0.27641009021586804,
-        "gamma": 3.6040288120671235e-08,
-        "reg_lambda": 2.218935508953109
+        "max_depth": 3,
+        "subsample": 0.9338303681503923,
+        "colsample_bytree": 0.31468699452753535,
+        "gamma": 4.4893601175534545e-06,
+        "reg_lambda": 6.624810672771278
     }
 }
