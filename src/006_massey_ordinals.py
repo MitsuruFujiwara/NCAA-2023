@@ -12,7 +12,7 @@ from utils import save2pkl, line_notify
 def main():
 
     # load csv
-    MasseyOrdinals = pd.read_csv('../input/MMasseyOrdinals.csv')
+    MasseyOrdinals = pd.read_csv('../input/MMasseyOrdinals_thru_Season2023_Day128.csv')
 
     # reshape
     MasseyOrdinals = MasseyOrdinals.pivot(index=['Season','TeamID','RankingDayNum'],columns='SystemName',values='OrdinalRank')

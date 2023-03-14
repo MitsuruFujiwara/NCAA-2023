@@ -23,6 +23,7 @@ oof_path_xgb = '../output/oof_xgb.csv'
 oof_path_cb = '../output/oof_cb.csv'
 
 sub_path_avg = '../output/submission_opt.csv'
+sub_path_avg_clip = '../output/submission_opt_clip.csv'
 
 def main():
 
@@ -96,18 +97,24 @@ def main():
     sub.loc[:,'Pred'] = (sub['Pred']-sub['Pred'].min())/(sub['Pred'].max()-sub['Pred'].min())
     oof.loc[:,'Pred'] = (oof['Pred']-oof['Pred'].min())/(oof['Pred'].max()-oof['Pred'].min())
 
-    # clip prediction
-    sub['Pred'].clip(0.05,0.95,inplace=True)
-    oof['Pred'].clip(0.05,0.95,inplace=True)
+    # save csv
+    sub[['ID','Pred']].to_csv(sub_path_avg, index=False)
 
     # calc score
     full_score = round(log_loss(oof['target'], oof['Pred']),6)
 
+    # clip prediction
+    sub['Pred'].clip(0.05,0.95,inplace=True)
+    oof['Pred'].clip(0.05,0.95,inplace=True)
+
+    # calc clipped score
+    full_score_clip = round(log_loss(oof['target'], oof['Pred']),6)
+
     # save csv
-    sub[['ID','Pred']].to_csv(sub_path_avg, index=False)
+    sub[['ID','Pred']].to_csv(sub_path_avg_clip, index=False)
 
     # LINE notify
-    line_notify(f'{sys.argv[0]} done. Full logloss: {full_score}')
+    line_notify(f'{sys.argv[0]} done. Full logloss: {full_score}, clipped logloss: {full_score_clip}')
 
 if __name__ == '__main__':
     main()
